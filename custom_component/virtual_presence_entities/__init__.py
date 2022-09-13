@@ -76,7 +76,7 @@ class VirtualEntityController():
     async def async_entity_action_handler(self, entity_class, action, **kwargs):
         # Get entty item in area
         _LOGGER.warning(f"Active Area: {self._active_area}, Class: {entity_class}, Action: {action}, KWARGS: {kwargs}")
-        entity_id = self.get_entities_by_area(self._active_area)
+        entity_id = self.get_entities_by_area(self._active_area, entity_class)
         _LOGGER.warning(entity_id)
 
 
@@ -115,13 +115,25 @@ class VirtualEntityController():
         device_ids = [ device.id for device in self.get_devices_by_area(area) ]
         #Get entities for each device if entity has no area of its own that != area
         er = entity_registry.async_get(self._hass)
-        return [
-            entity
+
+        entities = [
+            entity.entity_id
+            for entity in er.entities.values()
+            if entity.area_id == area
+            and filter in entity.entity_id
+        ]
+
+        device_entities = [
+            entity.entity_id
             for entity in er.entities.values()
             if entity.device_id in device_ids
-            and ( entity.area_id is None or entity.area_id == area )
-            and ( filter in entity.entity_id  )
+            and entity.area_id is None
+            and filter in entity.entity_id
         ]
+
+        return entities + device_entities
+
+
 
     def get_alexa_entities(self):
         er = entity_registry.async_get(self._hass)

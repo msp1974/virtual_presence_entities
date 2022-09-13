@@ -6,6 +6,7 @@ from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
     ColorMode,
     LightEntity,
+    LightEntityFeature
 )
 
 from .const import DOMAIN
@@ -36,6 +37,11 @@ class VirtualLight(LightEntity):
     async def async_update(self):
         """Async Update method ."""
         _LOGGER.debug(f"{self.name} Light Update requested")
+
+    @property
+    def supported_features(self):
+        """Flag supported features."""
+        return 1
 
     @property
     def supported_color_modes(self) -> set[ColorMode] | set[str] | None:
