@@ -17,9 +17,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     """Add the Wiser System Switch entities."""
     data = hass.data[DOMAIN][config_entry.entry_id]
     virtual_lights = [
-        VirtualLight(hass, data, "Lights"),
-        VirtualLight(hass, data, "Lamps"),
-        VirtualLight(hass, data, "Fan")
+        VirtualLight(hass, data, "Lights", ["light","lights"]),
+        VirtualLight(hass, data, "Lamps" ["lamp", "lamps"]),
+        VirtualLight(hass, data, "Fan" ["fan", "fans"])
     ]
     async_add_entities(virtual_lights, True)
 
@@ -27,12 +27,13 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class VirtualLight(LightEntity):
     """Virtual Light Object."""
 
-    def __init__(self, hass, data, name):
+    def __init__(self, hass, data, name, terms):
         """Initialize the sensor."""
         self._data = data
         self._is_on = True
         self._hass = hass
-        self._name = name.lower()
+        self._name = name
+        self._terms = terms
 
     async def async_update(self):
         """Async Update method ."""
@@ -104,7 +105,7 @@ class VirtualLight(LightEntity):
             )
         await self.async_force_update()
         """
-        await self._data.async_entity_action_handler(self._name, "TURNON", **kwargs)
+        await self._data.async_entity_action_handler(self._terms, "TURNON", **kwargs)
         _LOGGER.warning(f"TURN ON: {kwargs}")
         return True
 
