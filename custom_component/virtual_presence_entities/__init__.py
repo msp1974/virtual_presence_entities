@@ -111,7 +111,7 @@ class VirtualEntityController():
         dr = device_registry.async_get(self._hass)
         return device_registry.async_entries_for_area(dr, area)
 
-    def get_entities_by_area(self, area: str, filter: str = ""):
+    def get_entities_by_area(self, area: str, filter: str | list[str] = ""):
         device_ids = [ device.id for device in self.get_devices_by_area(area) ]
         #Get entities for each device if entity has no area of its own that != area
         er = entity_registry.async_get(self._hass)
@@ -120,7 +120,7 @@ class VirtualEntityController():
             entity.entity_id
             for entity in er.entities.values()
             if entity.area_id == area
-            and filter in entity.entity_id
+            and any(term in entity.entity_id for term in list(filter))
         ]
 
         device_entities = [
@@ -128,7 +128,7 @@ class VirtualEntityController():
             for entity in er.entities.values()
             if entity.device_id in device_ids
             and entity.area_id is None
-            and filter in entity.entity_id
+            and any(term in entity.entity_id for term in list(filter))
         ]
 
         return entities + device_entities
