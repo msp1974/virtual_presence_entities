@@ -120,7 +120,7 @@ class VirtualEntityController():
             entity.entity_id
             for entity in er.entities.values()
             if entity.area_id == area
-            and any(term in entity.entity_id for term in list(filter))
+            and any(term in entity.entity_id.split(".")[1] for term in list(filter))
         ]
 
         device_entities = [
@@ -128,7 +128,7 @@ class VirtualEntityController():
             for entity in er.entities.values()
             if entity.device_id in device_ids
             and entity.area_id is None
-            and any(term in entity.entity_id for term in list(filter))
+            and any(term in entity.entity_id.split(".")[1] for term in list(filter))
         ]
 
         return entities + device_entities
