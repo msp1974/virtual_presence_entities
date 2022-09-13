@@ -18,8 +18,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     data = hass.data[DOMAIN][config_entry.entry_id]
     virtual_lights = [
         VirtualLight(hass, data, "Lights", ["light","lights"]),
-        VirtualLight(hass, data, "Lamps" ["lamp", "lamps"]),
-        VirtualLight(hass, data, "Fan" ["fan", "fans"])
+        VirtualLight(hass, data, "Lamps", ["lamp", "lamps"]),
+        VirtualLight(hass, data, "Fan", ["fan", "fans"])
     ]
     async_add_entities(virtual_lights, True)
 
