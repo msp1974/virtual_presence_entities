@@ -1,0 +1,16 @@
+{
+  "domain": "virtual_presence_entities",
+  "name": "Virtual Presence Entities",
+  "version": "0.0.1",
+  "config_flow": true,
+  "documentation": "https://www.home-assistant.io/integrations/virtualpresenceentities",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@msp1974"
+  ],
+  "iot_class": "calculated"
+}
