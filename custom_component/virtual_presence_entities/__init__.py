@@ -73,7 +73,7 @@ class VirtualEntityController():
         # Get entty item in area
         _LOGGER.debug(f"Active Area: {self._active_area}, Class: {entity_class}, Function: {entity_function}, KWARGS: {kwargs}")
         entity_id_list = self.get_entities_by_area(self._active_area, entity_class)
-        _LOGGER.debug(entity_id)
+        _LOGGER.debug(entity_id_list)
         for entity_id in entity_id_list:
             entity = self.get_entity_from_entity_id(entity_id)
             if hasattr(entity, entity_function):
