@@ -105,7 +105,7 @@ class VirtualLight(LightEntity):
             )
         await self.async_force_update()
         """
-        await self._data.async_entity_action_handler(self._terms, "TURNON", **kwargs)
+        await self._data.async_entity_action_handler(self._terms, "async_turn_on", **kwargs)
         _LOGGER.warning(f"TURN ON: {kwargs}")
         return True
 
@@ -117,7 +117,8 @@ class VirtualLight(LightEntity):
         )
         await self.async_force_update()
         """
-        _LOGGER.warning("TURN ON", kwargs)
+        await self._data.async_entity_action_handler(self._terms, "async_turn_off", **kwargs)
+        _LOGGER.warning("TURN OFF", kwargs)
 
     """
     async def async_added_to_hass(self):
